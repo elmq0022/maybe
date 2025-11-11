@@ -20,3 +20,17 @@ func (m *Maybe[T]) IsSome() bool {
 func (m *Maybe[T]) IsNone() bool {
 	return !m.valid
 }
+
+func Map[T, U any](m Maybe[T], f func(T) U) Maybe[U] {
+	if m.valid {
+		return Some(f(m.value))
+	}
+	return None[U]()
+}
+
+func (m *Maybe[T]) Unwrap() T {
+	if !m.valid {
+		panic("called Unwrap on None val")
+	}
+	return m.value
+}
