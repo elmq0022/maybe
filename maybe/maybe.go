@@ -34,3 +34,10 @@ func (m *Maybe[T]) Unwrap() T {
 	}
 	return m.value
 }
+
+func (m *Maybe[T]) UnwrapOr(def T) T {
+	if m.valid {
+		return m.value
+	}
+	return def
+}

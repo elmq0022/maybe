@@ -36,3 +36,23 @@ func TestMaybeMap(t *testing.T) {
 		t.Fatalf("wanted Some(one), but got %v", z)
 	}
 }
+
+func TestUnwrapOr(t *testing.T) {
+	tests := []struct {
+		name  string
+		value m.Maybe[int]
+		def   int
+		want  int
+	}{
+		{name: "test some", value: m.Some(1), def: 2, want: 1},
+		{name: "test none", value: m.None[int](), def: 4, want: 4},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.value.UnwrapOr(tt.def)
+			if got != tt.want {
+				t.Fatalf("want %d, got %d", tt.want, got)
+			}
+		})
+	}
+}
